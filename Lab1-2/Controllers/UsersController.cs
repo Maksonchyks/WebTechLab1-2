@@ -14,18 +14,16 @@ public class UsersController : ControllerBase
         _context = context;
     }
 
-    /// <summary>
-    /// Отримати список всіх користувачів
-    /// </summary>
+    //some commit
+
+    
     [HttpGet]
     public async Task<ActionResult<IEnumerable<User>>> GetUsers()
     {
         return await _context.Users.ToListAsync();
     }
 
-    /// <summary>
-    /// Отримати користувача за ідентифікатором
-    /// </summary>
+    
     [HttpGet("{id}")]
     public async Task<ActionResult<User>> GetUser(int id)
     {
@@ -39,9 +37,7 @@ public class UsersController : ControllerBase
         return user;
     }
 
-    /// <summary>
-    /// Створити нового користувача
-    /// </summary>
+    
     [HttpPost]
     public async Task<ActionResult<User>> CreateUser(User user)
     {
@@ -51,9 +47,7 @@ public class UsersController : ControllerBase
         return CreatedAtAction(nameof(GetUser), new { id = user.Id }, user);
     }
 
-    /// <summary>
-    /// Оновити інформацію про користувача
-    /// </summary>
+    
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateUser(int id, User user)
     {
@@ -83,9 +77,7 @@ public class UsersController : ControllerBase
         return NoContent();
     }
 
-    /// <summary>
-    /// Видалити користувача
-    /// </summary>
+
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteUser(int id)
     {
