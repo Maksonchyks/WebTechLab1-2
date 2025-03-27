@@ -6,9 +6,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Налаштування підключення до бази даних
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseMySql(
-        "server=localhost;database=Makson;user=root;password=1234",
-        new MySqlServerVersion(new Version(8, 0, 41))
+    options.UseNpgsql(
+        "Host=dpg-cvimu3t6ubrc7389ivq0-a.frankfurt-postgres.render.com;Database=makson;Username=makson;Password=lV1Yj7LjA445D0jgXX5jig7EbqPQh86G;Trust Server Certificate=true"
     )
 );
 

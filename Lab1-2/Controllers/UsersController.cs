@@ -48,19 +48,29 @@ public class UsersController : ControllerBase
         return CreatedAtAction(nameof(GetUser), new { id = user.Id }, user);
     }
 
-    
+
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateUser(int id, User user)
     {
         if (id != user.Id)
         {
-            return BadRequest();
+            return BadRequest("ID в URL не співпадає з ID користувача.");
         }
 
-        _context.Entry(user).State = EntityState.Modified;
+        var existingUser = await _context.Users.FindAsync(id);
+        if (existingUser == null)
+        {
+            return NotFound();
+        }
+
+        // Оновлюємо тільки змінені властивості
+        existingUser.Name = user.Name ?? existingUser.Name;
+        existingUser.Email = user.Email ?? existingUser.Email;
+        existingUser.CreatedAt = user.CreatedAt == default ? existingUser.CreatedAt : user.CreatedAt;
 
         try
         {
+            // Збереження змін в базі даних
             await _context.SaveChangesAsync();
         }
         catch (DbUpdateConcurrencyException)
@@ -75,8 +85,10 @@ public class UsersController : ControllerBase
             }
         }
 
+        // Повертаємо статус "NoContent" при успішному оновленні
         return NoContent();
     }
+
 
 
     [HttpDelete("{id}")]
